@@ -1,0 +1,9 @@
+
+spring:
+  cloud:
+    inetutils:
+      default-hostname:
+    config:
+      server:
+        git:
+          uri:
