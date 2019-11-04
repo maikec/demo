@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mina</module>
+        <module>tcp-client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
