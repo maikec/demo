@@ -22,6 +22,7 @@ public class MinaTimeServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MinaTimeServer.class);
     public static void main(String[] args) throws IOException {
+        //IoService
         final IoAcceptor acceptor = new NioSocketAcceptor();
         //IoFilter
         acceptor.getFilterChain().addLast("logger",new LoggingFilter());
