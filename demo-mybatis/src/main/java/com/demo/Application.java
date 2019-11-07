@@ -1,18 +1,12 @@
 package com.demo;
 
-import cn.hutool.db.ds.DSFactory;
-import cn.hutool.setting.Setting;
 import com.demo.mapper.BlogMapper;
 import com.demo.po.Blog;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,13 +21,30 @@ public class Application {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        String environment = "development";
+        environment = getProfile(args, environment);
         String configPath = "mybatis-config.xml";
         final InputStream resource = Resources.getResourceAsStream(configPath);
-        final SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource);
+        final SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource,environment);
+        getData(sqlSessionFactory,1);
+    }
 
-        try ( final SqlSession sqlSession = sqlSessionFactory.openSession();){
+    private static String getProfile(String[] args, String environment) {
+        for (String arg : args) {
+            final String[] key = arg.split(",");
+            for (String tmp : key) {
+                if (tmp.contains("profile")){
+                    environment = tmp.split("=")[1];
+                }
+            }
+        }
+        return environment;
+    }
+
+    private static void getData(SqlSessionFactory sqlSessionFactory,Integer id) {
+        try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
             final BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
-            final Blog blog = mapper.selectBlogById(1);
+            final Blog blog = mapper.selectBlogById(id);
             System.out.println(blog.getName());
         } catch (Exception e) {
             e.printStackTrace();

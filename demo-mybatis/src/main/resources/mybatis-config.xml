@@ -26,6 +26,15 @@
                 <property name="password" value="${password}"/>
             </dataSource>
         </environment>
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver.test}"/>
+                <property name="url" value="${url.test}"/>
+                <property name="username" value="${username.test}"/>
+                <property name="password" value="${password.test}"/>
+            </dataSource>
+        </environment>
     </environments>
     <mappers>
         <mapper resource="mapper/blog.xml"/>
