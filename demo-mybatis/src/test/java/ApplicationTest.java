@@ -4,6 +4,7 @@ import com.demo.mapper.BlogMapper;
 import com.demo.po.Blog;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
@@ -32,6 +33,11 @@ public class ApplicationTest {
         final Configuration configuration = new Configuration(environment);
         configuration.addMapper(BlogMapper.class);
         configuration.setMapUnderscoreToCamelCase(true);
+        configuration.setCacheEnabled(true);
+        configuration.setDefaultExecutorType(ExecutorType.REUSE);
+        configuration.setDefaultStatementTimeout(3);
+        configuration.setLogPrefix("mybatisLog");
+
         build = new SqlSessionFactoryBuilder().build(configuration);
     }
     @Test
