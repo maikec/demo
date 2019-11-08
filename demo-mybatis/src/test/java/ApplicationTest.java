@@ -24,7 +24,6 @@ public class ApplicationTest {
     @Before
     public void init(){
         final Setting setting = new Setting("database.properties");
-        setting.get("username");
         final DSFactory dsFactory = DSFactory.create(setting);
         final DataSource dataSource = dsFactory.getDataSource();
 

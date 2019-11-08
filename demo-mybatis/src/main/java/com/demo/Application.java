@@ -26,7 +26,13 @@ public class Application {
         String configPath = "mybatis-config.xml";
         final InputStream resource = Resources.getResourceAsStream(configPath);
         final SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource,environment);
-        getData(sqlSessionFactory,1);
+        getData(sqlSessionFactory,2);
+
+
+        final InputStream resource2 = Resources.getResourceAsStream(configPath);
+        final SqlSessionFactory sqlSessionFactory2 = new SqlSessionFactoryBuilder().build(resource2,"development");
+        getData(sqlSessionFactory2,1);
+
     }
 
     private static String getProfile(String[] args, String environment) {
