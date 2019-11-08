@@ -1,7 +1,7 @@
-import cn.hutool.db.ds.DSFactory;
-import cn.hutool.setting.Setting;
 import com.demo.mapper.BlogMapper;
 import com.demo.po.Blog;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
@@ -12,7 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * 说明
@@ -22,13 +23,18 @@ import javax.sql.DataSource;
 public class ApplicationTest {
     SqlSessionFactory build;
     @Before
-    public void init(){
-        final Setting setting = new Setting("database.properties");
-        final DSFactory dsFactory = DSFactory.create(setting);
-        final DataSource dataSource = dsFactory.getDataSource();
+    public void init() throws IOException {
+        final Properties properties = Resources.getResourceAsProperties("database.properties");
+        final PooledDataSource pooledDataSource = new PooledDataSource(
+                properties.getProperty("driver","com.mysql.cj.jdbc.Driver"),
+                properties.getProperty("url",
+                        "jdbc:mysql://localhost:3306/demo?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false"),
+                properties.getProperty("username","root"),
+                properties.getProperty("password","root")
+                );
 
         final JdbcTransactionFactory jdbcTransactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("development", jdbcTransactionFactory, dataSource);
+        Environment environment = new Environment("development", jdbcTransactionFactory,  pooledDataSource);
         final Configuration configuration = new Configuration(environment);
         configuration.addMapper(BlogMapper.class);
         configuration.setMapUnderscoreToCamelCase(true);

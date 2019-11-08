@@ -24,10 +24,16 @@
                 <property name="url" value="${url}"/>
                 <property name="username" value="${username}"/>
                 <property name="password" value="${password}"/>
+                <property name="poolMaximumActiveConnections" value="${poolMaximumActiveConnections}"/>
+                <property name="poolMaximumIdleConnections" value="${poolMaximumIdleConnections}"/>
+                <property name="poolMaximumCheckoutTime" value="${poolMaximumCheckoutTime}"/>
+                <property name="poolTimeToWait" value="${poolTimeToWait}"/>
             </dataSource>
         </environment>
         <environment id="test">
+            <!--TransactionFactory Transaction -->
             <transactionManager type="JDBC"/>
+            <!--PooledDataSourceFactory -->
             <dataSource type="POOLED">
                 <property name="driver" value="${driver.test}"/>
                 <property name="url" value="${url.test}"/>
