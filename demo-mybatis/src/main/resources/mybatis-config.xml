@@ -6,6 +6,8 @@
     <properties resource="database.properties"/>
     <settings>
         <setting name="cacheEnabled" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeAliases>
         <package name="com.demo.po"/>
@@ -15,6 +17,7 @@
     </typeHandlers>
     <plugins>
         <plugin interceptor="com.demo.plugin.DefaultPlugin"></plugin>
+        <!--<plugin interceptor="com.demo.plugin.UpdatePlugin"></plugin>-->
     </plugins>
     <environments default="development">
         <environment id="development">
