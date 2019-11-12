@@ -21,7 +21,7 @@ import java.lang.reflect.Proxy;
 public class Demo {
     public static void main(String[] args) {
         final FooInvocationHandler handler = new FooInvocationHandler(new FooImp());
-        final Foo instance = (Foo) Proxy.newProxyInstance(FooImp.class.getClassLoader(), new Class[]{Foo.class}, handler);
+        final Foo instance = (Foo) Proxy.newProxyInstance(Foo.class.getClassLoader(), new Class[]{Foo.class}, handler);
         System.out.println(instance.getName("1111"));
     }
 }
