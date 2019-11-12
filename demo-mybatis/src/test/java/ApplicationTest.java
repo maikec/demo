@@ -24,7 +24,9 @@ public class ApplicationTest {
     SqlSessionFactory build;
     @Before
     public void init() throws IOException {
+        //从属性文件加载数据库配置信息到Properties
         final Properties properties = Resources.getResourceAsProperties("database.properties");
+        //实例化dataSource
         final PooledDataSource pooledDataSource = new PooledDataSource(
                 properties.getProperty("driver","com.mysql.cj.jdbc.Driver"),
                 properties.getProperty("url",
@@ -32,9 +34,11 @@ public class ApplicationTest {
                 properties.getProperty("username","root"),
                 properties.getProperty("password","root")
                 );
-
+        //创建事务工厂类
         final JdbcTransactionFactory jdbcTransactionFactory = new JdbcTransactionFactory();
+        //初始化environment
         Environment environment = new Environment("development", jdbcTransactionFactory,  pooledDataSource);
+        //初始化configuration
         final Configuration configuration = new Configuration(environment);
         configuration.addMapper(BlogMapper.class);
         configuration.setMapUnderscoreToCamelCase(true);

@@ -2,6 +2,7 @@ package com.demo;
 
 import com.demo.mapper.BlogMapper;
 import com.demo.po.Blog;
+import com.demo.repository.BlogRepository;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 
 /**
  * 说明
@@ -26,12 +28,12 @@ public class Application {
         String configPath = "mybatis-config.xml";
         final InputStream resource = Resources.getResourceAsStream(configPath);
         final SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource,environment);
-        getData(sqlSessionFactory,2);
+        doDemo(sqlSessionFactory,2);
 
 
-        final InputStream resource2 = Resources.getResourceAsStream(configPath);
-        final SqlSessionFactory sqlSessionFactory2 = new SqlSessionFactoryBuilder().build(resource2,"development");
-        getData(sqlSessionFactory2,1);
+//        final InputStream resource2 = Resources.getResourceAsStream(configPath);
+//        final SqlSessionFactory sqlSessionFactory2 = new SqlSessionFactoryBuilder().build(resource2,"development");
+//        getData(sqlSessionFactory2,1);
 
     }
 
@@ -47,13 +49,46 @@ public class Application {
         return environment;
     }
 
-    private static void getData(SqlSessionFactory sqlSessionFactory,Integer id) {
+    private static void doDemo(SqlSessionFactory sqlSessionFactory,Integer id) {
         try (final SqlSession sqlSession = sqlSessionFactory.openSession();) {
+
             final BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
-            final Blog blog = mapper.selectBlogById(id);
-            System.out.println(blog.getName());
+//
+            insertBlogWithoutId(mapper,sqlSession);
+
+
+//            final BlogRepository<Blog> repository = new BlogRepository<>(sqlSessionFactory);
+//            System.out.println(repository.selectBlogById(2));
+//
+//            repository.insertBlog();
+
+//            final BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+//
+//            insertBlogWithoutId(mapper,sqlSession);
+
+//            final Blog blog = mapper.selectBlogById(id);
+//            System.out.println(blog.getName());
+//
+//            if (null != blog.getId()) {
+//                final Integer integer = mapper.deleteBlog(id);
+//                sqlSession.commit();
+//            }
+//
+//            blog.setCreateDate(LocalDateTime.now());
+//            final Integer integer = mapper.insertBlog(blog);
+//            insertBlogWithoutId(mapper,sqlSession);
+//            sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static void insertBlogWithoutId(BlogMapper mapper, SqlSession sqlSession) {
+        final Blog blog = Blog.builder().name("withoutId").content("11")
+                .type(1).build();
+        blog.setCreateDate(LocalDateTime.now());
+        final Integer integer = mapper.insertBlogWithoutId(blog);
+        sqlSession.commit();
+    }
+
 }

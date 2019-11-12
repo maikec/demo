@@ -1,6 +1,9 @@
 package com.demo.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
@@ -12,10 +15,11 @@ import java.util.Date;
  */
 @Alias("blog")
 @Data
-public class Blog {
-    private Integer id;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Blog extends BasePO {
     private String name;
     private String content;
-    private Date createDate;
     private Integer type;
 }
