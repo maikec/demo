@@ -7,6 +7,9 @@
         <module>mina</module>
         <module>tcp-client</module>
         <module>demo-mybatis</module>
+        <module>tcp</module>
+        <module>udp</module>
+        <module>client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -98,7 +101,11 @@
             <version>1.6.2</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.6</version>
+        </dependency>
 
 
     </dependencies>
